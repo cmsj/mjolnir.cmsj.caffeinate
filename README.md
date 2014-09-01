@@ -66,6 +66,9 @@ Now test it thoroughly. Make sure it actually works. Automated tests
 are not enough, actually load it up in Mjolnir and use it. Preferrably
 for a few days.
 
+You'll need to register an account at https://rocks.moonscript.org/
+and create an API key in the Settings page for the next steps:
+
 ~~~bash
 $ luarocks pack mjolnir.ext.foobar
 $ moonrocks upload --skip-pack mjolnir.ext.foobar-0.1-1.rockspec
