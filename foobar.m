@@ -16,10 +16,10 @@ static const luaL_Reg foobarlib[] = {
 };
 
 
-/* NOTE: The substring "mjolnir_ext_foobar_internal" in the following function's name
-         must match the require-path of this file, i.e. "mjolnir.ext.foobar.internal". */
+/* NOTE: The substring "mjolnir_yourid_foobar_internal" in the following function's name
+         must match the require-path of this file, i.e. "mjolnir.yourid.foobar.internal". */
 
-int luaopen_mjolnir_ext_foobar_internal(lua_State* L) {
+int luaopen_mjolnir_yourid_foobar_internal(lua_State* L) {
     luaL_newlib(L, foobarlib);
     return 1;
 }

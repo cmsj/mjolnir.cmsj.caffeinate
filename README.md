@@ -2,16 +2,16 @@ This is a sample project to demonstrate writing a Mjolnir plugin.
 
 ### Your module's require-path
 
-Our sample module is called "mjolnir.ext.foobar". This is both the
+Our sample module is called "mjolnir.yourid.foobar". This is both the
 name of the module, and its require-path. It's a good practice to make
 the module name and require path the same thing.
 
 ### Picking a name for your module
 
 You should prefix your module's name with "mjolnir." followed by a
-short unique identifier owned by you, e.g. maybe your initials. For
-example, my grid module is published as "mjolnir.sd.grid" where "sd"
-are my initials.
+short unique identifier owned by you, e.g. maybe your initials. Don't
+use "yourid", that's just here for example. For example, my grid
+module is published as "mjolnir.sd.grid" where "sd" are my initials.
 
 ### Installing prerequisites
 
@@ -50,7 +50,7 @@ $ luarocks make
 Then, just launch Mjolnir, require your module, and test it out:
 
 ~~~lua
-local foobar = require "mjolnir.ext.foobar"
+local foobar = require "mjolnir.yourid.foobar"
 print(foobar.addnumbers(1, 2))
 ~~~
 
@@ -72,9 +72,9 @@ You'll need to register an account at https://rocks.moonscript.org/
 and create an API key in the Settings page for the next steps:
 
 ~~~bash
-$ luarocks pack mjolnir.ext.foobar
-$ moonrocks upload --skip-pack mjolnir.ext.foobar-0.1-1.rockspec
-$ moonrocks upload mjolnir.ext.foobar-0.1-1.macosx-x86_64.rock
+$ luarocks pack mjolnir.yourid.foobar
+$ moonrocks upload --skip-pack mjolnir.yourid.foobar-0.1-1.rockspec
+$ moonrocks upload mjolnir.yourid.foobar-0.1-1.macosx-x86_64.rock
 ~~~
 
 Congratulations, it's now available for everyone!

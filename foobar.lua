@@ -1,4 +1,4 @@
-local foobar = require "mjolnir.ext.foobar.internal"
+local foobar = require "mjolnir.yourid.foobar.internal"
 -- If you don't have a C or Objective-C submodule, the above line gets simpler:
 -- local foobar = {}
 
