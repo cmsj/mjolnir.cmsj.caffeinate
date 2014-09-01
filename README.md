@@ -1,15 +1,17 @@
 This is a sample project to demonstrate writing a Mjolnir plugin.
 
-### Picking a name for your module
+### Your module's require-path
 
 Our sample module is called "mjolnir.ext.foobar". This is both the
 name of the module, and its require-path. It's a good practice to make
 the module name and require path the same thing.
 
-In general, I recommend you prefix your module's name with
-"mjolnir.ext." for a few reasons. It's consistent, clear, and lets
-people write tools in the future that easily find all existing Mjolnir
-plugins easily.
+### Picking a name for your module
+
+You should prefix your module's name with "mjolnir." followed by a
+short unique identifier owned by you, e.g. maybe your initials. For
+example, my grid module is published as "mjolnir.sd.grid" where "sd"
+are my initials.
 
 ### Installing prerequisites
 
