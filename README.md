@@ -16,8 +16,8 @@ module is published as "mjolnir.sd.grid" where "sd" are my initials.
 ### Installing prerequisites
 
 Before you begin, you'll need to install Lua 5.2, LuaRocks, and
-MoonRocks. If you have Mjolnir installed, you've probably already done
-this:
+MoonRocks. (If you have Mjolnir installed, you've probably already
+done the first two.)
 
 ~~~bash
 $ brew install homebrew/versions/lua52
