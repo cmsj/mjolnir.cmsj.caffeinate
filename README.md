@@ -34,9 +34,15 @@ autocompletion and other helpful Xcode features.
 1. New Xcode Project -> Framework & Library -> C/C++ Library
 2. Add `/usr/local/include` to "Header Search Paths"
 3. Add `/usr/local/lib` to "Library Search Paths"
-4. Add `-llua` to Other Linker Flags
+4. Add `-llua` to "Other Linker Flags"
 5. Add your `.m` file to the Xcode project
 6. Add `#import <lauxlib.h>` to the top of your `.m` file
+
+Keep in mind that this Xcode project has literally nothing to do with
+the actual binary that this will result in. LuaRocks takes care of
+that on its own, with its own build script. The Xcode project is
+purely here as a convenience. If you'd rather skip this whole step and
+write your Objective-C code in another editor, that works too.
 
 ### Building and testing your module
 
