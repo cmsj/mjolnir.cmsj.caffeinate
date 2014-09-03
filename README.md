@@ -74,6 +74,8 @@ Now test it thoroughly. Make sure it actually works. Automated tests
 are not enough, actually load it up in Mjolnir and use it. Preferrably
 for a few days.
 
+Then, patch a MoonRocks file as specified below.
+
 You'll need to register an account at https://rocks.moonscript.org/
 and create an API key in the Settings page for the next steps:
 
@@ -84,3 +86,19 @@ $ moonrocks upload mjolnir.yourid.foobar-0.1-1.macosx-x86_64.rock
 ~~~
 
 Congratulations, it's now available for everyone!
+
+### Patching the MoonRocks file
+
+MoonRocks is almost entirely free of any Lua 5.1-specific
+features. All except two lines.
+
+So edit `/usr/local/share/lua/5.2/moonrocks/actions.lua`:
+
+Apply this pseudo-patch manually:
+
+~~~lua
+- local fn, err = loadfile(fname)
++ local fn, err = loadfile(fname, nil, rockspec)
+
+- setfenv(fn, rockspec)
+~~~
