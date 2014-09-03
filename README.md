@@ -25,6 +25,15 @@ $ brew install luarocks --with-lua52
 $ luarocks install --server=http://rocks.moonscript.org moonrocks
 ~~~
 
+### A note about ARC
+
+If you're writing a module that contains any Objective-C, you'll
+probably have to write it without ARC. When LuaRocks compiles your
+module, it sets `CC="export MACOSX_DEPLOYMENT_TARGET=10.5; gcc"` for
+some reason, and it doesn't set the `-fobjc-arc` flag. You can try to
+change the build rules to fix these, but it's way more trouble than
+it's worth. It's easiest to do what I do and just skip using ARC.
+
 ### Optionally create an Xcode project
 
 If you're writing a module that has some C or Objective-C, you may
@@ -37,6 +46,7 @@ autocompletion and other helpful Xcode features.
 4. Add `-llua` to "Other Linker Flags"
 5. Add your `.m` file to the Xcode project
 6. Add `#import <lauxlib.h>` to the top of your `.m` file
+7. Turn off ARC
 
 Keep in mind that this Xcode project has literally nothing to do with
 the actual binary that this will result in. LuaRocks takes care of
