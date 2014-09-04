@@ -48,7 +48,7 @@ build = {
     -- If you have an internal C or Objective-C submodule, include it here:
     ["mjolnir.cmsj.caffeinate.internal"] = "caffeinate.m",
     --["mjolnir.cmsj.caffeinate.internal"] = {
-        sources = {"caffeinate.m"},
+        --sources = {"caffeinate.m"},
         -- incdirs = {"/System/Library/Frameworks/IOKit.framework/Versions/A/Headers???"},
         -- libraries = {"IOKit???"},
         -- libdirs = {"???"},
