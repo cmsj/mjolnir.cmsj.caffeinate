@@ -28,12 +28,6 @@ description = {
 supported_platforms = {"macosx"}
 dependencies = {
   "lua >= 5.2",
-  -- You can add Mjolnir core modules as dependencies,
-  -- i.e. "mjolnir.application", "mjolnir.hotkey", whatever.
-  --
-  -- For example, if your module depends on `mjolnir.fnutils`,
-  -- uncomment the following line:
-  --
   -- "mjolnir.fnutils",
 }
 
@@ -47,14 +41,5 @@ build = {
 
     -- If you have an internal C or Objective-C submodule, include it here:
     ["mjolnir.cmsj.caffeinate.internal"] = "caffeinate.m",
-    --["mjolnir.cmsj.caffeinate.internal"] = {
-        --sources = {"caffeinate.m"},
-        -- incdirs = {"/System/Library/Frameworks/IOKit.framework/Versions/A/Headers???"},
-        -- libraries = {"IOKit???"},
-        -- libdirs = {"???"},
-    --},
-
-    -- Note: the key on the left side is the require-path; the value
-    --       on the right is the filename relative to the current dir.
   },
 }
