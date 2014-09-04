@@ -3,17 +3,30 @@
 #import <IOKit/pwr_mgt/IOPMLib.h>
 #import <lauxlib.h>
 
-static IOPMAssertionID NoDisplaySleep;
+static IOPMAssertionID noDisplaySleep = 0;
 
-static int caffeinate_addnumbers(lua_State* L) {
-    int a = luaL_checknumber(L, 1);
-    int b = luaL_checknumber(L, 2);
-    lua_pushnumber(L, a + b);
+static int caffeinate_prevent_display_sleep(lua_State* L) {
+    IOReturn result = 1;
+
+    if (noDisplaySleep) return 1;
+
+    result = IOPMAssertionCreateWithDescription(kIOPMAssertionTypePreventUserIdleDisplaySleep,
+                                                CFSTR("mjolnir.cmsj.caffeinate"),
+                                                NULL,
+                                                NULL,
+                                                NULL,
+                                                0,
+                                                NULL,
+                                                &noDisplaySleep);
+    if (result != kIOReturnSuccess) {
+        // WAT DO
+    }
+
     return 1;
 }
 
 static const luaL_Reg caffeinatelib[] = {
-    {"addnumbers", caffeinate_addnumbers},
+    {"prevent_display_sleep", caffeinate_prevent_display_sleep},
     
     {} // necessary sentinel
 };
@@ -23,8 +36,6 @@ static const luaL_Reg caffeinatelib[] = {
          must match the require-path of this file, i.e. "mjolnir.cmsj.caffeinate.internal". */
 
 int luaopen_mjolnir_cmsj_caffeinate_internal(lua_State* L) {
-    noDisplaySleep = nil;
-
     luaL_newlib(L, caffeinatelib);
     return 1;
 }
