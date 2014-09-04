@@ -72,5 +72,5 @@ static const luaL_Reg caffeinatelib[] = {
 int luaopen_mjolnir_cmsj_caffeinate_internal(lua_State *L) {
     luaL_newlib(L, caffeinatelib);
     caffeinate_print(L, "Initialised caffeinate.");
-    return 0;
+    return 1;
 }
