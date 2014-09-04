@@ -46,12 +46,13 @@ build = {
     ["mjolnir.cmsj.caffeinate"] = "caffeinate.lua",
 
     -- If you have an internal C or Objective-C submodule, include it here:
-    ["mjolnir.cmsj.caffeinate.internal"] = {
+    ["mjolnir.cmsj.caffeinate.internal"] = "caffeinate.m",
+    --["mjolnir.cmsj.caffeinate.internal"] = {
         sources = {"caffeinate.m"},
         -- incdirs = {"/System/Library/Frameworks/IOKit.framework/Versions/A/Headers???"},
         -- libraries = {"IOKit???"},
         -- libdirs = {"???"},
-    },
+    --},
 
     -- Note: the key on the left side is the require-path; the value
     --       on the right is the filename relative to the current dir.
