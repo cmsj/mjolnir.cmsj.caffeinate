@@ -1,5 +1,24 @@
+--- === mjolnir.cmsj.caffeinate ===
+---
+--- Prevent various kinds of sleep activities in OSX
+---
+--- Usage: local caffeinate = require "mjolnir.cmsj.caffeinate"
+---
+--- NOTE: Any sleep preventions will be removed when mjolnir.reload() is called
+---       A future version of the module will save/restore state across reloads.
+
 local caffeinate = require "mjolnir.cmsj.caffeinate.internal"
 
+--- mjolnir.cmsj.caffeinate.set(sleepType, aValue, AC_and_battery)
+--- Function
+--- Configures the sleep prevention settings:
+---  sleepType:
+---    DisplayIdle - Prevents the screen from blanking if the user is idle (and also prevents the system from sleeping)
+---    SystemIdle - Prevents the system from sleeping if the user is idle (the display may still sleep)
+---    System - Prevents the system from sleeping for any reason
+---  acAndBattery: (NOTE: This applies only to the "System" sleep type)
+---    True - System should not sleep when on AC or battery
+---    False - System should not sleep only when on AC
 function caffeinate.set(aType, aValue, acAndBattery)
     if (aType == "DisplayIdle") then
         if (aValue == true) then
@@ -24,6 +43,9 @@ function caffeinate.set(aType, aValue, acAndBattery)
     end
 end
 
+--- mjolnir.cmsj.caffeinate.get(sleepType) -> bool
+--- Function
+--- Queries whether a particular sleep type is being prevented by Mjolnir
 function caffeinate.get(aType)
     if (aType == "DisplayIdle") then
         return caffeinate.is_idle_display_sleep_prevented()
