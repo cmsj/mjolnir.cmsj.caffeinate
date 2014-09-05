@@ -15,7 +15,7 @@ static void caffeinate_print(lua_State *L, char *msg) {
 }
 
 // Create an IOPM Assertion of specified type and store its ID in the specified variable
-static void caffeinate_create_assertion(lua_State *L, CFStringRef assertionType, IOPMAssertionID assertionID) {
+static void caffeinate_create_assertion(lua_State *L, CFStringRef assertionType, IOPMAssertionID *assertionID) {
     IOReturn result = 1;
 
     if (assertionID) return;
@@ -35,7 +35,7 @@ static void caffeinate_create_assertion(lua_State *L, CFStringRef assertionType,
 }
 
 // Release a previously stored assertion
-static void caffeinate_release_assertion(lua_State *L, IOPMAssertionID assertionID) {
+static void caffeinate_release_assertion(lua_State *L, IOPMAssertionID *assertionID) {
     IOReturn result = 1;
 
     if (!assertionID) return;
@@ -45,25 +45,27 @@ static void caffeinate_release_assertion(lua_State *L, IOPMAssertionID assertion
     if (result != kIOReturnSuccess) {
         caffeinate_print(L, "caffeinate_release_assertion: failed");
     }
+
+    assertionID = 0;
 }
 
 // ----------------------- Functions for display sleep when user is idle ----------------------------
 
 // Prevent display sleep if the user goes idle (and by implication, system sleep)
 static int caffeinate_prevent_idle_display_sleep(lua_State *L) {
-    caffeinate_create_assertion(L, kIOPMAssertionTypePreventUserIdleDisplaySleep, noIdleDisplaySleep);
+    caffeinate_create_assertion(L, kIOPMAssertionTypePreventUserIdleDisplaySleep, &noIdleDisplaySleep);
     return 0;
 }
 
 // Allow display sleep if the user goes idle
 static int caffeinate_allow_idle_display_sleep(lua_State *L) {
-    caffeinate_release_assertion(L, noIdleDisplaySleep);
+    caffeinate_release_assertion(L, &noIdleDisplaySleep);
     return 0;
 }
 
 // Determine if idle display sleep is currently prevented
 static int caffeinate_is_idle_display_sleep_prevented(lua_State *L) {
-    lua_pushboolean(L, (noIdleDisplaySleep != 0));
+    lua_pushboolean(L, noIdleDisplaySleep);
     return 1;
 }
 
@@ -112,6 +114,8 @@ static int caffeinate_is_system_sleep_prevented(lua_State *L) {
 static int caffeinate_gc(lua_State *L) {
     // TODO: We should register which of the assertions we have active, somewhere that persists a reload()
     if (noIdleDisplaySleep) caffeinate_allow_idle_display_sleep(L);
+    if (noIdleSystemSleep) caffeinate_allow_idle_system_sleep(L);
+    if (noSystemSleep) caffeinate_allow_system_sleep(L);
 
     return 0;
 }
