@@ -155,15 +155,14 @@ static const luaL_Reg caffeinatelib[] = {
     {"allow_system_sleep", caffeinate_allow_system_sleep},
     {"is_system_sleep_prevented", caffeinate_is_system_sleep_prevented},
 
-    {} // necessary sentinel
+    {}
 };
 
 static const luaL_Reg metalib[] = {
     {"__gc", caffeinate_gc},
-    
-    {} // necessary sentinel
-};
 
+    {}
+};
 
 /* NOTE: The substring "mjolnir_cmsj_caffeinate_internal" in the following function's name
          must match the require-path of this file, i.e. "mjolnir.cmsj.caffeinate.internal". */
