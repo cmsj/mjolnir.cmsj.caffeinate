@@ -27,7 +27,7 @@ static void caffeinate_create_assertion(lua_State *L, CFStringRef assertionType,
                                                 NULL,
                                                 0,
                                                 NULL,
-                                                &assertionID);
+                                                assertionID);
 
     if (result != kIOReturnSuccess) {
         caffeinate_print(L, "caffeinate_create_assertion: failed");
@@ -40,7 +40,7 @@ static void caffeinate_release_assertion(lua_State *L, IOPMAssertionID *assertio
 
     if (!assertionID) return;
 
-    result = IOPMAssertionRelease(assertionID);
+    result = IOPMAssertionRelease(*assertionID);
 
     if (result != kIOReturnSuccess) {
         caffeinate_print(L, "caffeinate_release_assertion: failed");
@@ -73,13 +73,13 @@ static int caffeinate_is_idle_display_sleep_prevented(lua_State *L) {
 
 // Prevent system sleep if the user goes idle (display may still sleep)
 static int caffeinate_prevent_idle_system_sleep(lua_State *L) {
-    caffeinate_create_assertion(L, kIOPMAssertionTypePreventUserIdleSystemSleep, noIdleSystemSleep);
+    caffeinate_create_assertion(L, kIOPMAssertionTypePreventUserIdleSystemSleep, &noIdleSystemSleep);
     return 0;
 }
 
 // Allow system sleep if the user goes idle
 static int caffeinate_allow_idle_system_sleep(lua_State *L) {
-    caffeinate_release_assertion(L, noIdleSystemSleep);
+    caffeinate_release_assertion(L, &noIdleSystemSleep);
     return 0;
 }
 
@@ -93,13 +93,13 @@ static int caffeinate_is_idle_system_sleep_prevented(lua_State *L) {
 
 // Prevent system sleep (only when on AC power)
 static int caffeinate_prevent_system_sleep(lua_State *L) {
-    caffeinate_create_assertion(L, kIOPMAssertionTypePreventSystemSleep, noSystemSleep);
+    caffeinate_create_assertion(L, kIOPMAssertionTypePreventSystemSleep, &noSystemSleep);
     return 0;
 }
 
 // Allow system sleep
 static int caffeinate_allow_system_sleep(lua_State *L) {
-    caffeinate_release_assertion(L, noSystemSleep);
+    caffeinate_release_assertion(L, &noSystemSleep);
     return 0;
 }
 
