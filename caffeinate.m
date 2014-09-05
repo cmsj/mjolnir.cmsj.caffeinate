@@ -135,9 +135,9 @@ static int caffeinate_is_system_sleep_prevented(lua_State *L) {
 
 static int caffeinate_gc(lua_State *L) {
     // TODO: We should register which of the assertions we have active, somewhere that persists a reload()
-    if (noIdleDisplaySleep) caffeinate_allow_idle_display_sleep(L);
-    if (noIdleSystemSleep) caffeinate_allow_idle_system_sleep(L);
-    if (noSystemSleep) caffeinate_allow_system_sleep(L);
+    caffeinate_allow_idle_display_sleep(L);
+    caffeinate_allow_idle_system_sleep(L);
+    caffeinate_allow_system_sleep(L);
 
     return 0;
 }
@@ -155,6 +155,10 @@ static const luaL_Reg caffeinatelib[] = {
     {"allow_system_sleep", caffeinate_allow_system_sleep},
     {"is_system_sleep_prevented", caffeinate_is_system_sleep_prevented},
 
+    {} // necessary sentinel
+};
+
+static const luaL_Reg metalib[] = {
     {"__gc", caffeinate_gc},
     
     {} // necessary sentinel
@@ -166,5 +170,8 @@ static const luaL_Reg caffeinatelib[] = {
 
 int luaopen_mjolnir_cmsj_caffeinate_internal(lua_State *L) {
     luaL_newlib(L, caffeinatelib);
+    luaL_newlib(L, metalib);
+    lua_setmetatable(L, -2);
+
     return 1;
 }
