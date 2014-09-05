@@ -12,4 +12,4 @@ VERSION="$1"
 
 luarocks pack mjolnir.${AUTHOR}.${MODULE}
 moonrocks upload --skip-pack mjolnir.${AUTHOR}.${MODULE}-${VERSION}.rockspec
-moonrocks upload mjolnir.${AUTHOR}.${MODULE}-${VERSION}.all.rock
+moonrocks upload mjolnir.${AUTHOR}.${MODULE}-${VERSION}.macosx-x86_64.rock
