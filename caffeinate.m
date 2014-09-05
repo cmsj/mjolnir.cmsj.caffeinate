@@ -85,7 +85,7 @@ static int caffeinate_allow_idle_system_sleep(lua_State *L) {
 
 // Determine if idle system sleep is currently prevented
 static int caffeinate_is_idle_system_sleep_prevented(lua_State *L) {
-    lua_pushboolean(L, (noIdleSystemSleep != 0));
+    lua_pushboolean(L, noIdleSystemSleep);
     return 1;
 }
 
@@ -105,7 +105,7 @@ static int caffeinate_allow_system_sleep(lua_State *L) {
 
 // Determine if system sleep is currently prevented
 static int caffeinate_is_system_sleep_prevented(lua_State *L) {
-    lua_pushboolean(L, (noSystemSleep != 0));
+    lua_pushboolean(L, noSystemSleep);
     return 1;
 }
 
@@ -127,7 +127,7 @@ static const luaL_Reg caffeinatelib[] = {
 
     {"prevent_idle_system_sleep", caffeinate_prevent_idle_system_sleep},
     {"allow_idle_system_sleep", caffeinate_allow_idle_system_sleep},
-    {"is_idle_system_sleep_prevented", caffeinate_is_idle_display_sleep_prevented},
+    {"is_idle_system_sleep_prevented", caffeinate_is_idle_system_sleep_prevented},
 
     {"prevent_system_sleep", caffeinate_prevent_system_sleep},
     {"allow_system_sleep", caffeinate_allow_system_sleep},
