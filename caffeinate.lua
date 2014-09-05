@@ -2,23 +2,32 @@
 ---
 --- Prevent various kinds of sleep activities in OSX
 ---
---- Usage: local caffeinate = require "mjolnir.cmsj.caffeinate"
+--- **Usage**:
+---     local caffeinate = require "mjolnir.cmsj.caffeinate"
 ---
---- NOTE: Any sleep preventions will be removed when mjolnir.reload() is called
----       A future version of the module will save/restore state across reloads.
+--- **NOTE**: Any sleep preventions will be removed when mjolnir.reload() is called. A future version of the module will save/restore state across reloads.
 
 local caffeinate = require "mjolnir.cmsj.caffeinate.internal"
 
 --- mjolnir.cmsj.caffeinate.set(sleepType, aValue, AC_and_battery)
 --- Function
---- Configures the sleep prevention settings:
---- * sleepType:
----     * DisplayIdle - Prevents the screen from blanking if the user is idle (and also prevents the system from sleeping)
----     * SystemIdle - Prevents the system from sleeping if the user is idle (the display may still sleep)
----     * System - Prevents the system from sleeping for any reason
---- * acAndBattery: (NOTE: This applies only to the "System" sleep type)
----     * True - System should not sleep when on AC or battery
----     * False - System should not sleep only when on AC
+--- Configures the sleep prevention settings.
+--- **Arguments:**
+--- * sleepType (string):
+---     * DisplayIdle - Controls whether the screen will be allowed to sleep (and also the system) if the user is idle.
+---     * SystemIdle - Controls whether the system will be allowed to sleep if the user is idle (display may still sleep).
+---     * System - Controls whether the system will be allowed to sleep for any reason.
+--- * aValue (boolean):
+---     * True - The specified sleep type should be prevented.
+---     * False - The specified sleep type should be allowed.
+--- * acAndBattery (boolean):
+---     * True - System should not sleep when on AC or battery.
+---     * False - System should not sleep only when on AC.
+---
+--- **NOTES:**
+--- * These calls are not guaranteed to prevent the system sleep behaviours described above. The OS may override them if it feels it must (e.g. if your CPU temperature becomes dangerously high).
+--- * The acAndBattery argument only applies to the "System" sleep type.
+--- * You can toggle the acAndBattery state by calling set() again and altering the AC_and_battery value.
 function caffeinate.set(aType, aValue, acAndBattery)
     if (aType == "DisplayIdle") then
         if (aValue == true) then
@@ -46,10 +55,16 @@ end
 --- mjolnir.cmsj.caffeinate.get(sleepType) -> bool or nil
 --- Function
 --- Queries whether a particular sleep type is being prevented by Mjolnir.
---- (see docs on set() for the types of sleep prevention that can be queried).
+--- **Arguments:**
+--- * sleepType (string): (see [set](#set) for information about these values)
+---     * DisplayIdle
+---     * SystemIdle
+---     * System
 ---
---- Returns true if the specified sleepType is currently being prevented, false if not.
---- Returns nil if an invalid sleepType is specified.
+--- **Returns:**
+--- * true - if the specified sleepType is currently being prevented.
+--- * false - if the specified sleepType is not currenly being prevented.
+--- * nil - if an invalid sleepType is specified.
 function caffeinate.get(aType)
     if (aType == nil) then
         print("No sleepType specified")
@@ -71,10 +86,18 @@ end
 --- mjolnir.cmsj.caffeinate.toggle(sleepType) -> bool or nil
 --- Function
 --- Toggles the current state of the specified sleepType.
---- Returns true if the new state of sleepType is prevention, false if not.
---- Returns nil if an invalid sleepType is specified.
+--- **Arguments:**
+--- * sleepType (string): (see [set](#set) for information about these values)
+---     * DisplayIdle
+---     * SystemIdle
+---     * System
 ---
---- NOTE: If SystemIdle is toggled to on, it will apply to AC only.
+--- **Returns:**
+--- * true - if the new state of sleepType is prevention.
+--- * false - if the new state of sleepType is allowance.
+--- * nil - if an invalid sleepType is specified.
+---
+--- **NOTE:** If SystemIdle is toggled to on, it will apply to AC only.
 function caffeinate.toggle(aType)
     local current = caffeinate.get(aType)
     if (current == nil) then
