@@ -104,10 +104,16 @@ static int caffeinate_prevent_system_sleep(lua_State *L) {
 
     caffeinate_create_assertion(L, kIOPMAssertionTypePreventSystemSleep, &noSystemSleep);
 
-    if (noSystemSleep && ac_and_battery) {
+    if (noSystemSleep) {
+        CFBooleanRef value;
+        if (ac_and_battery) {
+            value = kCFBooleanTrue;
+        } else {
+            value = kCFBooleanFalse;
+        }
         result = IOPMAssertionSetProperty(noSystemSleep,
                                           kIOPMAssertionAppliesToLimitedPowerKey,
-                                          (CFBooleanRef)kCFBooleanTrue);
+                                          (CFBooleanRef)value);
     }
 
     return 0;
