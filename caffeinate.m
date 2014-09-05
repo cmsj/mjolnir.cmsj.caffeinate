@@ -18,7 +18,7 @@ static void caffeinate_print(lua_State *L, char *msg) {
 static void caffeinate_create_assertion(lua_State *L, CFStringRef assertionType, IOPMAssertionID *assertionID) {
     IOReturn result = 1;
 
-    if (assertionID) return;
+    if (*assertionID) return;
 
     result = IOPMAssertionCreateWithDescription(assertionType,
                                                 CFSTR("mjolnir.cmsj.caffeinate"),
@@ -38,7 +38,7 @@ static void caffeinate_create_assertion(lua_State *L, CFStringRef assertionType,
 static void caffeinate_release_assertion(lua_State *L, IOPMAssertionID *assertionID) {
     IOReturn result = 1;
 
-    if (!assertionID) return;
+    if (!*assertionID) return;
 
     result = IOPMAssertionRelease(*assertionID);
 
@@ -46,7 +46,7 @@ static void caffeinate_release_assertion(lua_State *L, IOPMAssertionID *assertio
         caffeinate_print(L, "caffeinate_release_assertion: failed");
     }
 
-    assertionID = 0;
+    *assertionID = 0;
 }
 
 // ----------------------- Functions for display sleep when user is idle ----------------------------
