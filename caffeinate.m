@@ -3,6 +3,8 @@
 #import <IOKit/pwr_mgt/IOPMLib.h>
 #import <lauxlib.h>
 
+#define kIOPMAssertionAppliesToLimitedPowerKey  CFSTR("AppliesToLimitedPower")
+
 static IOPMAssertionID noIdleDisplaySleep = 0;
 static IOPMAssertionID noIdleSystemSleep = 0;
 static IOPMAssertionID noSystemSleep = 0;
@@ -91,9 +93,23 @@ static int caffeinate_is_idle_system_sleep_prevented(lua_State *L) {
 
 // ----------------------- Functions for system sleep ----------------------------
 
-// Prevent system sleep (only when on AC power)
+// Prevent system sleep
 static int caffeinate_prevent_system_sleep(lua_State *L) {
+    IOReturn result = 1;
+    BOOL ac_and_battery = false;
+
+    if lua_isboolean(L, 1)
+        ac_and_battery = lua_toboolean(L, 1);
+    lua_settop(L, 1);
+
     caffeinate_create_assertion(L, kIOPMAssertionTypePreventSystemSleep, &noSystemSleep);
+
+    if (noSystemSleep && ac_and_battery) {
+        result = IOPMAssertionSetProperty(noSystemSleep,
+                                          kIOPMAssertionAppliesToLimitedPowerKey,
+                                          (CFBooleanRef)kCFBooleanTrue);
+    }
+
     return 0;
 }
 
@@ -129,7 +145,7 @@ static const luaL_Reg caffeinatelib[] = {
     {"allow_idle_system_sleep", caffeinate_allow_idle_system_sleep},
     {"is_idle_system_sleep_prevented", caffeinate_is_idle_system_sleep_prevented},
 
-    {"prevent_system_sleep", caffeinate_prevent_system_sleep},
+    {"_prevent_system_sleep", caffeinate_prevent_system_sleep},
     {"allow_system_sleep", caffeinate_allow_system_sleep},
     {"is_system_sleep_prevented", caffeinate_is_system_sleep_prevented},
 
